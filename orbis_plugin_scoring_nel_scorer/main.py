@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+
 from operator import itemgetter
 from .conditions import conditions
 
 
-class NELScorer(object):
+class Main(object):
 
     def __init__(self):
-        super(NELScorer, self).__init__()
+        super(Main, self).__init__()
 
     def run(self, computed, gold, scorer_condition):
         return self.confusion_matrix(computed, gold, scorer_condition)
