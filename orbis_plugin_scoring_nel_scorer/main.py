@@ -24,6 +24,7 @@ class Main(object):
             gold_type = gold_entry["entity_type"]
             gold_surface_form = gold_entry["surfaceForm"]
             entity_mapping = [gold_id, False, 0]
+
             for comp_entry in sorted(computed_0, key=itemgetter("document_start")):
                 comp_start = int(comp_entry["document_start"])
                 comp_end = int(comp_entry["document_end"])
@@ -47,12 +48,14 @@ class Main(object):
                     computed_0.remove(comp_entry)
                     break
             entity_mappings.append(entity_mapping)
+
         for comp_entry in sorted(computed_0, key=itemgetter("document_start")):
             comp_start = int(comp_entry["document_start"])
             comp_end = int(comp_entry["document_end"])
             comp_id = "{},{}".format(comp_start, comp_end)
             entity_mapping = [False, comp_id, 0]
             entity_mappings.append(entity_mapping)
+
         confusion_matrix = {
             "tp": [],
             "fp": [],
