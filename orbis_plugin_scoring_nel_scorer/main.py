@@ -3,6 +3,9 @@
 from operator import itemgetter
 from .conditions import conditions
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class Main(object):
 
@@ -66,19 +69,19 @@ class Main(object):
         }
         for gold, comp, num in entity_mappings:
             if gold and comp:
-                # app.logger.debug("TP: Gold: {}; Comp: {}; ({})".format(gold, comp, num))
+                # logger.debug("TP: Gold: {}; Comp: {}; ({})".format(gold, comp, num))
                 confusion_matrix["tp"].append(1)
                 confusion_matrix["fp"].append(0)
                 confusion_matrix["fn"].append(0)
                 confusion_matrix["tp_ids"].append(comp)
             elif comp and not gold:
-                # app.logger.debug("FP: Gold: {}; Comp: {}; ({})".format(gold, comp, num))
+                # logger.debug("FP: Gold: {}; Comp: {}; ({})".format(gold, comp, num))
                 confusion_matrix["tp"].append(0)
                 confusion_matrix["fp"].append(1)
                 confusion_matrix["fn"].append(0)
                 confusion_matrix["fp_ids"].append(comp)
             elif gold and not comp:
-                # app.logger.debug("FN: Gold: {}; Comp: {}; ({})".format(gold, comp, num))
+                # logger.debug("FN: Gold: {}; Comp: {}; ({})".format(gold, comp, num))
                 confusion_matrix["tp"].append(0)
                 confusion_matrix["fp"].append(0)
                 confusion_matrix["fn"].append(1)
