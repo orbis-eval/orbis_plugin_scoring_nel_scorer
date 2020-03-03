@@ -13,9 +13,17 @@ conditions = {
         "same_type",
         "same_surfaceForm"
     ],
-    "overlap": [
+    "overlap_withtype": [
         "overlap",
         "same_url",
         "same_type"
-    ]
+    ],
+    "overlap": [
+        "overlap",
+        "same_url"
+    ],
+    "simple_ner": [
+        "overlap",
+        "same_type",
+    ],
 }

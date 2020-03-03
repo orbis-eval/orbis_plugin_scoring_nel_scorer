@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 __name__ = "orbis_plugin_scoring_nel_scorer"
-__version__ = "2.2"
+__version__ = "2.2.2dev0"
 __author__ = "fabod"
 __year__ = "2019"
 __description__ = "The nel_scorer scoring plugin for Orbis"
