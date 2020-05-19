@@ -3,10 +3,20 @@
 conditions = {
     "simple": [
         "same_url",
+        "same_surfaceForm"
+    ],
+    "simple_withtype": [
+        "same_url",
         "same_type",
         "same_surfaceForm"
     ],
     "strict": [
+        "same_start",
+        "same_end",
+        "same_url",
+        "same_surfaceForm"
+    ],
+    "strict_withtype": [
         "same_start",
         "same_end",
         "same_url",
@@ -26,4 +36,9 @@ conditions = {
         "overlap",
         "same_type",
     ],
+    "strict_ner": [
+        "same_start",
+        "same_end",
+        "same_type",
+    ]
 }

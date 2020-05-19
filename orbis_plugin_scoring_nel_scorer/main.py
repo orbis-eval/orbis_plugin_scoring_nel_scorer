@@ -37,8 +37,6 @@ class Main(PluginBaseClass):
             TYPE: Description
         """
 
-        print(f"{__file__.split('/')[-3:-2][0]} 45 >>> {self.get_plugin_dir(__file__)}")
-
         gold_0 = gold.copy()
         computed_0 = computed.copy()
         entity_mappings = []
@@ -85,7 +83,7 @@ class Main(PluginBaseClass):
             gold_url = gold_entry["key"]
             gold_type = gold_entry["entity_type"]
             gold_surface_form = gold_entry["surfaceForm"]
-            entity_mapping = [gold_id, False, 0]
+            entity_mapping = [gold_id, False, 0, "fn"]
 
             for comp_entry in sorted(computed_0, key=itemgetter("document_start")):
                 comp_start = int(comp_entry["document_start"])
@@ -108,9 +106,24 @@ class Main(PluginBaseClass):
                     comp_id = f"{comp_start},{comp_end}"
                     entity_mapping[1] = comp_id
                     entity_mapping[2] += 1
+                    entity_mapping[3] = states
                     gold_0.remove(gold_entry)
                     computed_0.remove(comp_entry)
                     break
+                    """
+                elif any([states[condition] for condition in conditions[scorer_condition]]):
+                    score = self.calc_score(states)
+                    comp_id = f"{comp_start},{comp_end}"
+                    entity_mapping[1] = comp_id
+                    entity_mapping[2] += score
+                    entity_mapping[3] = states
+                    gold_0.remove(gold_entry)
+                    computed_0.remove(comp_entry)
+                    break
+                    """
+                else:
+                    continue
+
             entity_mappings.append(entity_mapping)
 
         self.catch_data(entity_mappings, "get_scored", "entity_mappings_1", __file__)
@@ -118,6 +131,20 @@ class Main(PluginBaseClass):
         self.catch_data(computed_0, "get_scored", "computed_0_1", __file__)
 
         return entity_mappings, gold_0, computed_0
+
+    def calc_score(self, states):
+        """
+        noting yet...
+        """
+        right, wrong = 0, 0
+
+        for k, v in states.items():
+            if v:
+                right += 1
+            else:
+                wrong += 1
+
+        return 0
 
     def get_unscored(self, entity_mappings, computed_0):
         """Summary
@@ -133,11 +160,11 @@ class Main(PluginBaseClass):
         self.catch_data(computed_0, "get_unscored", "computed_0", __file__)
 
         for comp_entry in sorted(computed_0, key=itemgetter("document_start")):
-            
+
             comp_start = int(comp_entry["document_start"])
             comp_end = int(comp_entry["document_end"])
             comp_id = f"{comp_start},{comp_end}"
-            entity_mapping = [False, comp_id, 0]
+            entity_mapping = [False, comp_id, 0, "fp"]
             entity_mappings.append(entity_mapping)
 
         self.catch_data(entity_mappings, "get_unscored", "entity_mappings_1", __file__)
@@ -166,10 +193,13 @@ class Main(PluginBaseClass):
             "fn": [],
             "tp_ids": [],
             "fp_ids": [],
-            "fn_ids": []
+            "fn_ids": [],
+            "states": []
         }
 
-        for gold, comp, num in entity_mappings:
+        for gold, comp, num, state in entity_mappings:
+
+            confusion_matrix["states"].append(state)
 
             if gold and comp:
                 # logger.debug("TP: Gold: {}; Comp: {}; ({})".format(gold, comp, num))

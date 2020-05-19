@@ -1,4 +1,6 @@
 # Orbis Specific
+/test/data/
+!/test/data/file_for_git_to_not_ignore_this_folder
 /logs/
 /output/
 /data/corpora/
